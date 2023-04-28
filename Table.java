@@ -14,9 +14,11 @@ import java.lang.Class;
 import java.lang.reflect.*;
 
 
-public class Table{
+public class Table extends JPanel implements KeyListener{
     private Rectangle body, verticalLineOne, verticalLineTwo, horizontalLineOne, horizontalLineTwo, goalOne, goalTwo, centerLineOuter;
     private Ball centerCircleOutline, centerCircle;
+
+    private Mallet malletOne, malletTwo;
 
     private int width = 500;
     private int height = 250;
@@ -25,7 +27,9 @@ public class Table{
     private int goalLength = 70;
     private int centerCircleDiameter = 30;
 
-    public Table(){
+    private JFrame frame;
+
+    public Table(GameArena gameArena){
         // Rectangle = (x, y, width, height, colour, layer);
         
         body = new Rectangle(0, 0, width, height, "WHITE", 0);
@@ -42,8 +46,13 @@ public class Table{
         goalOne = new Rectangle(lineThickness, (height-goalLength)/2, lineThickness/2, goalLength, "GREY", 4); // The Left Goal
         goalTwo = new Rectangle(width-(1.5*lineThickness), (height-goalLength)/2, lineThickness/2, goalLength, "GREY", 4); // The Right Goal
 
-        // Adding the Things to things.
 
+        // Mallets are controlled by the users:
+        malletOne = new Mallet(100, height/2, true);
+        malletTwo = new Mallet(400, height/2, false);
+
+        frame = (JFrame) SwingUtilities.getWindowAncestor(gameArena);
+        frame.addKeyListener(this);
     }
 
     // A public method to return the objects in this class to the Things Array.
@@ -58,6 +67,58 @@ public class Table{
         gameArena.addBall(centerCircle);
         gameArena.addRectangle(goalOne);
         gameArena.addRectangle(goalTwo);
+        gameArena.addBall(malletOne.getBall());
+        gameArena.addBall(malletTwo.getBall());
+    }
+
+    public void update(GameArena gameArena){
+        frame = (JFrame) SwingUtilities.getWindowAncestor(gameArena);
+        malletOne.updateMallet();
+        malletTwo.updateMallet();
+    }
+
+    @Override public void keyPressed(KeyEvent e){
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_W){
+            malletOne.setY(malletOne.getY() - malletOne.getVelocity());
+        }
+        
+        if (key == KeyEvent.VK_A){
+            malletOne.setX(malletOne.getX() - malletOne.getVelocity());
+        }
+
+        if (key == KeyEvent.VK_S){
+            malletOne.setY(malletOne.getY() + malletOne.getVelocity());
+        }
+
+        if (key == KeyEvent.VK_D){
+            malletOne.setX(malletOne.getX() + malletOne.getVelocity());
+        }
+
+        if (key == KeyEvent.VK_I){
+            malletTwo.setY(malletTwo.getY() - malletTwo.getVelocity());
+        }
+        
+        if (key == KeyEvent.VK_J){
+            malletTwo.setX(malletTwo.getX() - malletTwo.getVelocity());
+
+        }
+
+        if (key == KeyEvent.VK_K){
+            malletTwo.setY(malletTwo.getY() + malletTwo.getVelocity());
+        }
+
+        if (key == KeyEvent.VK_L){
+            malletTwo.setX(malletTwo.getX() - malletTwo.getVelocity());
+        }
+    }
+
+    @Override public void keyReleased(KeyEvent e){
+
+    }
+
+    @Override public void keyTyped(KeyEvent e){
         
     }
 
