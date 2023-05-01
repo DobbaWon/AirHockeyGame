@@ -10,13 +10,13 @@ public class Mallet{
     
     private boolean isWASD;
 
-    private int velocity = 1;
+    private int velocity = 3;
 
     public Mallet(int x, int y, boolean isWASD){
         this.x = x;
         this.y = y;
 
-        malletBody = new Ball(x, y, malletDiameter, "BLUE");
+        malletBody = new Ball(x, y, malletDiameter, "BLUE", 2);
         
         this.isWASD = isWASD;
     }

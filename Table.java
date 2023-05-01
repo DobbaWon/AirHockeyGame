@@ -19,13 +19,14 @@ public class Table extends JPanel implements KeyListener{
     private Ball centerCircleOutline, centerCircle;
 
     private Mallet malletOne, malletTwo;
+    private Puck puck;
 
     private int width = 500;
     private int height = 250;
     private int lineThickness = 10;
     private int centerLineThickness = 2;
     private int goalLength = 70;
-    private int centerCircleDiameter = 30;
+    private int centerCircleDiameter = 80;
 
     private JFrame frame;
 
@@ -39,17 +40,19 @@ public class Table extends JPanel implements KeyListener{
         horizontalLineTwo = new Rectangle(0, height-lineThickness, width, lineThickness, "BLUE", 1); // The Right Line
         centerLineOuter = new Rectangle(width/2, 0, centerLineThickness, height, "BLUE", 1); // The Center Line before and after the Center Circle
 
-        centerCircleOutline = new Ball(width/2, height/2, centerCircleDiameter, "BLUE", 2); // The outline of the Circle in the Center
-        centerCircle = new Ball(width/2, height/2, centerCircleDiameter-centerLineThickness, "WHITE", 3); // The Center Circle
+        centerCircleOutline = new Ball(width/2, height/2, centerCircleDiameter, "BLUE", 1); // The outline of the Circle in the Center
+        centerCircle = new Ball(width/2, height/2, centerCircleDiameter-centerLineThickness, "WHITE", 1); // The Center Circle
 
         // Goals are half as wide as lines. They also come infront of the border lines, so they need to be drawn after 0+lineThickness, and before Width-(1.5*lineThickness)
-        goalOne = new Rectangle(lineThickness, (height-goalLength)/2, lineThickness/2, goalLength, "GREY", 4); // The Left Goal
-        goalTwo = new Rectangle(width-(1.5*lineThickness), (height-goalLength)/2, lineThickness/2, goalLength, "GREY", 4); // The Right Goal
+        goalOne = new Rectangle(lineThickness, (height-goalLength)/2, lineThickness/2, goalLength, "GREY", 1); // The Left Goal
+        goalTwo = new Rectangle(width-(1.5*lineThickness), (height-goalLength)/2, lineThickness/2, goalLength, "GREY", 1); // The Right Goal
 
 
         // Mallets are controlled by the users:
         malletOne = new Mallet(100, height/2, true);
         malletTwo = new Mallet(400, height/2, false);
+        
+        puck = new Puck(width/2, height/2);
 
         frame = (JFrame) SwingUtilities.getWindowAncestor(gameArena);
         frame.addKeyListener(this);
@@ -69,6 +72,7 @@ public class Table extends JPanel implements KeyListener{
         gameArena.addRectangle(goalTwo);
         gameArena.addBall(malletOne.getBall());
         gameArena.addBall(malletTwo.getBall());
+        gameArena.addBall(puck.getBall());
     }
 
     public void update(GameArena gameArena){
