@@ -4,44 +4,40 @@ import java.awt.event.KeyListener;
 public class Mallet{
 
     private Ball malletBody;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private int malletDiameter = 50;
-    
-    private boolean isWASD;
 
-    private int velocity = 3;
+    private double velocity = 3;
 
-    public Mallet(int x, int y, boolean isWASD){
+    public Mallet(double x, double y){
         this.x = x;
         this.y = y;
 
         malletBody = new Ball(x, y, malletDiameter, "BLUE", 2);
-        
-        this.isWASD = isWASD;
     }
 
     public Ball getBall(){
         return malletBody;
     }
 
-    public int getY(){
+    public double getY(){
         return y;
     }
 
-    public int getX(){
+    public double getX(){
         return x;
     }
 
-    public int getVelocity(){
+    public double getVelocity(){
         return velocity;
     }
 
-    public void setY(int y){
+    public void setY(double y){
         this.y = y;
     }
 
-    public void setX(int x){
+    public void setX(double x){
         this.x = x;
     }
 

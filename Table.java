@@ -21,12 +21,12 @@ public class Table extends JPanel implements KeyListener{
     private Mallet malletOne, malletTwo;
     private Puck puck;
 
-    private int width = 500;
-    private int height = 250;
-    private int lineThickness = 10;
-    private int centerLineThickness = 2;
-    private int goalLength = 70;
-    private int centerCircleDiameter = 80;
+    private int width = 1000;
+    private int height = 500;
+    private int lineThickness = 20;
+    private int centerLineThickness = 4;
+    private int goalLength = 140;
+    private int centerCircleDiameter = 160;
 
     private JFrame frame;
 
@@ -49,10 +49,10 @@ public class Table extends JPanel implements KeyListener{
 
 
         // Mallets are controlled by the users:
-        malletOne = new Mallet(100, height/2, true);
-        malletTwo = new Mallet(400, height/2, false);
+        malletOne = new Mallet(200, height/2);
+        malletTwo = new Mallet(800, height/2);
         
-        puck = new Puck(width/2, height/2);
+        puck = new Puck(Double.valueOf(width/2), Double.valueOf(height/2));
 
         frame = (JFrame) SwingUtilities.getWindowAncestor(gameArena);
         frame.addKeyListener(this);
@@ -79,6 +79,7 @@ public class Table extends JPanel implements KeyListener{
         frame = (JFrame) SwingUtilities.getWindowAncestor(gameArena);
         malletOne.updateMallet();
         malletTwo.updateMallet();
+        puck.updatePuck(this);
     }
 
     @Override public void keyPressed(KeyEvent e){
@@ -114,7 +115,7 @@ public class Table extends JPanel implements KeyListener{
         }
 
         if (key == KeyEvent.VK_L){
-            malletTwo.setX(malletTwo.getX() - malletTwo.getVelocity());
+            malletTwo.setX(malletTwo.getX() + malletTwo.getVelocity());
         }
     }
 
@@ -124,6 +125,14 @@ public class Table extends JPanel implements KeyListener{
 
     @Override public void keyTyped(KeyEvent e){
         
+    }
+
+    public Mallet getMalletOne(){
+        return malletOne;
+    }
+
+    public Mallet getMalletTwo(){
+        return malletTwo;
     }
 
 }
