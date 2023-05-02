@@ -83,44 +83,75 @@ public class Table extends JPanel implements KeyListener{
     }
 
     @Override public void keyPressed(KeyEvent e){
-        int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_W){
-            malletOne.setY(malletOne.getY() - malletOne.getVelocity());
+        // Check with Uni computers:
+        if (e.getKeyCode() == KeyEvent.VK_W){
+            malletOne.setIsMovingUp();
         }
         
-        if (key == KeyEvent.VK_A){
-            malletOne.setX(malletOne.getX() - malletOne.getVelocity());
+        if (e.getKeyCode() == KeyEvent.VK_A){
+            malletOne.setIsMovingLeft();
         }
 
-        if (key == KeyEvent.VK_S){
-            malletOne.setY(malletOne.getY() + malletOne.getVelocity());
+        if (e.getKeyCode() == KeyEvent.VK_S){
+            malletOne.setIsMovingDown();
         }
 
-        if (key == KeyEvent.VK_D){
-            malletOne.setX(malletOne.getX() + malletOne.getVelocity());
+        if (e.getKeyCode() == KeyEvent.VK_D){
+            malletOne.setIsMovingRight();
         }
 
-        if (key == KeyEvent.VK_I){
-            malletTwo.setY(malletTwo.getY() - malletTwo.getVelocity());
+        if (e.getKeyCode() == KeyEvent.VK_I){
+            malletTwo.setIsMovingUp();
         }
         
-        if (key == KeyEvent.VK_J){
-            malletTwo.setX(malletTwo.getX() - malletTwo.getVelocity());
+        if (e.getKeyCode() == KeyEvent.VK_J){
+            malletTwo.setIsMovingLeft();
 
         }
 
-        if (key == KeyEvent.VK_K){
-            malletTwo.setY(malletTwo.getY() + malletTwo.getVelocity());
+        if (e.getKeyCode() == KeyEvent.VK_K){
+            malletTwo.setIsMovingDown();
         }
 
-        if (key == KeyEvent.VK_L){
-            malletTwo.setX(malletTwo.getX() + malletTwo.getVelocity());
+        if (e.getKeyCode() == KeyEvent.VK_L){
+            malletTwo.setIsMovingRight();
         }
     }
 
     @Override public void keyReleased(KeyEvent e){
+        if (e.getKeyCode() == KeyEvent.VK_W){
+            malletOne.setIsNotMovingUp();
+        }
+        
+        if (e.getKeyCode() == KeyEvent.VK_A){
+            malletOne.setIsNotMovingLeft();
+        }
 
+        if (e.getKeyCode() == KeyEvent.VK_S){
+            malletOne.setIsNotMovingDown();
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_D){
+            malletOne.setIsNotMovingRight();
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_I){
+            malletTwo.setIsNotMovingUp();
+        }
+        
+        if (e.getKeyCode() == KeyEvent.VK_J){
+            malletTwo.setIsNotMovingLeft();
+
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_K){
+            malletTwo.setIsNotMovingDown();
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_L){
+            malletTwo.setIsNotMovingRight();
+        }
     }
 
     @Override public void keyTyped(KeyEvent e){
