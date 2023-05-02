@@ -1,27 +1,38 @@
+import java.awt.Menu;
 import java.awt.event.KeyListener;
 
 public class Main implements Runnable{
 
-    static Table table;
+    static Menustate menustate;
+    static Gamestate gamestate;
     static GameArena gameArena;
+
     public static void main(String[] args){
         Main main = new Main();
-
         gameArena = new GameArena(1000, 500);
-        table = new Table(gameArena);
-
-        table.fillThings(gameArena); 
+        menustate = new Menustate(gameArena);
+        gamestate = new Gamestate(gameArena);
 
         Thread t = new Thread(main);
-
         t.start();
+
         gameArena.run();
     }
 
     public void run(){
         boolean isRunning = true;
         while (isRunning){
-            table.update(gameArena);
+            if (menustate.getIsGamePlaying()){
+                gamestate.draw();
+                gamestate.update();
+                System.out.println("HERE 1"); // DONT GET RID OF THIS IT MAKES THE CODE WORK SOMEHOW
+            }
+            else{
+                menustate.update();
+                System.out.println("HERE 2");
+
+            }
+            
         }
     }
 }
