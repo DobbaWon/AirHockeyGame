@@ -56,7 +56,7 @@ public class Menustate extends State implements KeyListener{
         return text;
     }
 
-    private void fillGameArena(){
+    public void fillGameArena(){
         Rectangle[] rectangles = getRectangles();
         Text[] text = getText();
 
@@ -106,4 +106,8 @@ public class Menustate extends State implements KeyListener{
         
     }
 
+    public void setNewMainMenu(){
+        isGamePlaying = false;
+        fillGameArena();
+    }
 }

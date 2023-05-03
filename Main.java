@@ -26,13 +26,16 @@ public class Main implements Runnable{
                 gamestate.draw();
                 gamestate.update();
                 System.out.println("HERE 1"); // DONT GET RID OF THIS IT MAKES THE CODE WORK SOMEHOW
+
+                if (gamestate.getGoToMainMenu()){
+                    menustate.setNewMainMenu();
+                    gamestate.resetArena();
+                }
             }
             else{
                 menustate.update();
                 System.out.println("HERE 2");
-
             }
-            
         }
     }
 }
