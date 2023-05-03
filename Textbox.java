@@ -15,4 +15,8 @@ public class Textbox{
     public Text getText(){
         return text;
     }
+
+    public void setText(String newText){
+        text.setText(newText);
+    }
 }

@@ -18,7 +18,7 @@ public class Menustate extends State implements KeyListener{
     private JFrame frame;
     
     public Menustate(GameArena gameArena){
-        background = new Rectangle(0,0,1000,500,"CYAN", 1);
+        background = new Rectangle(0,0,1000,600,"CYAN", 1);
         titleText = new Textbox("Air Hockey", 400, 50, 420, 100, 200, 80, 30, "BLUE", "WHITE", 2);
         playText = new Textbox("PLAY - 'P'", 300, 200, 400, 260, 400, 80, 50, "GREEN", "WHITE", 2);
         exitText = new Textbox("EXIT - 'E'", 300, 300, 400, 360, 400, 80, 50, "RED", "WHITE", 2);

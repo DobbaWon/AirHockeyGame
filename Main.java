@@ -9,7 +9,7 @@ public class Main implements Runnable{
 
     public static void main(String[] args){
         Main main = new Main();
-        gameArena = new GameArena(1000, 500);
+        gameArena = new GameArena(1000, 600);
         menustate = new Menustate(gameArena);
         gamestate = new Gamestate(gameArena);
 
