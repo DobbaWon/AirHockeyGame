@@ -100,7 +100,7 @@ public class Menustate extends State implements KeyListener{
             exit();
         }
 
-        if (key == KeyEventn.VK_N){
+        if (key == KeyEvent.VK_N){
             isGameCheated = true;
         }
     }
@@ -119,7 +119,7 @@ public class Menustate extends State implements KeyListener{
         fillGameArena();
     }
 
-    public bool getIsGameCheated(){
+    public boolean getIsGameCheated(){
         return isGameCheated;
     }
 }
