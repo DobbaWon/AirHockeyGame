@@ -13,7 +13,9 @@ public class Menustate extends State implements KeyListener{
     private Textbox titleText;
     private Textbox playText;
     private Textbox exitText;
+    private Textbox cheatBox;
     private boolean isGamePlaying = false;
+    private boolean isGameCheated = false;
 
     private JFrame frame;
     
@@ -22,6 +24,7 @@ public class Menustate extends State implements KeyListener{
         titleText = new Textbox("Air Hockey", 400, 50, 420, 100, 200, 80, 30, "BLUE", "WHITE", 2);
         playText = new Textbox("PLAY - 'P'", 300, 200, 400, 260, 400, 80, 50, "GREEN", "WHITE", 2);
         exitText = new Textbox("EXIT - 'E'", 300, 300, 400, 360, 400, 80, 50, "RED", "WHITE", 2);
+        cheatBox = new Textbox("No CheatiNg!", 300, 400, 500, 350, 400, 80, 50, "BLACK", "WHITE", 2);
 
         this.gameArena = gameArena;
         fillGameArena();
@@ -96,6 +99,10 @@ public class Menustate extends State implements KeyListener{
         if (key == KeyEvent.VK_E){
             exit();
         }
+
+        if (key == KeyEventn.VK_N){
+            isGameCheated = true;
+        }
     }
 
      public void keyReleased(KeyEvent e){
@@ -108,6 +115,11 @@ public class Menustate extends State implements KeyListener{
 
     public void setNewMainMenu(){
         isGamePlaying = false;
+        isGameCheated = false;
         fillGameArena();
+    }
+
+    public bool getIsGameCheated(){
+        return isGameCheated;
     }
 }

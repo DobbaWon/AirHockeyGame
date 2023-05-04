@@ -23,6 +23,10 @@ public class Main implements Runnable{
         boolean isRunning = true;
         while (isRunning){
             if (menustate.getIsGamePlaying()){
+                if (menustate.getIsGameCheated()){
+                    gamestate.setCheatedGame();
+                }
+                
                 gamestate.draw();
                 gamestate.update();
                 System.out.println("HERE 1"); // DONT GET RID OF THIS IT MAKES THE CODE WORK SOMEHOW

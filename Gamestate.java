@@ -14,6 +14,7 @@ public class Gamestate extends State{
     private boolean isGameOver = false; 
     private boolean goToMainMenu = false;
     private boolean winnerBoxShowing = false;
+    private boolean isGameCheated = false;
 
     private Textbox winnerBox;
     private String winnerText;
@@ -40,6 +41,9 @@ public class Gamestate extends State{
 
     }
 
+    public void setCheatedGame(){
+        isGameCheated = true;
+    }
     
     public void update(){
         table.update(gameArena);
