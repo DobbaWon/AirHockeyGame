@@ -4,8 +4,8 @@ public class Gamestate extends State{
     private GameArena gameArena;
     private Table table;
 
-    private int scorePlayerOne;
-    private int scorePlayerTwo;
+    private int scorePlayerOne = 0;
+    private int scorePlayerTwo = 0;
 
     private long gameDuration = 150;
     private long secondsLeft = 150; // 150 per game.
@@ -24,7 +24,8 @@ public class Gamestate extends State{
 
     private Textbox wasd;
     private Textbox ijkl;
-
+    private Textbox playerOneScoreText;
+    private Textbox playerTwoScoreText;
 
     public Gamestate(GameArena gameArena){
         this.gameArena = gameArena;
@@ -34,6 +35,8 @@ public class Gamestate extends State{
         wasd = new Textbox("WASD", 100, 20, 110, 60, 150, 60, 40, "GREEN", "WHITE", 1);
         ijkl = new Textbox("IJKL", 750, 20, 780, 60, 150, 60, 40, "GREEN", "WHITE", 1);
         timer = new Textbox("", 440, 10, 455, 80, 120, 80, 50, "RED", "WHITE", 1);
+        playerOneScoreText = new Textbox(String.valueOf(scorePlayerOne), 400, 20, 410, 60, 40, 60, 40, "BLUE", "WHITE", 1);
+        playerTwoScoreText = new Textbox(String.valueOf(scorePlayerTwo), 560, 20, 570, 60, 40, 60, 40, "BLUE", "WHITE", 1);
 
     }
 
@@ -92,6 +95,10 @@ public class Gamestate extends State{
             gameArena.addText(wasd.getText());
             gameArena.addText(ijkl.getText());
             gameArena.addText(timer.getText());
+            gameArena.addRectangle(playerOneScoreText.getRectangle());
+            gameArena.addRectangle(playerTwoScoreText.getRectangle());
+            gameArena.addText(playerOneScoreText.getText());
+            gameArena.addText(playerTwoScoreText.getText());
             hasDrawn = true;
             initArena();
         }
