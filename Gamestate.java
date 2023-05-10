@@ -1,3 +1,4 @@
+import java.awt.SystemTray;
 import java.io.InvalidObjectException;
 
 public class Gamestate extends State{
@@ -27,7 +28,7 @@ public class Gamestate extends State{
     private Textbox ijkl;
     private Textbox playerOneScoreText;
     private Textbox playerTwoScoreText;
-
+    
     public Gamestate(GameArena gameArena){
         this.gameArena = gameArena;
         table = new Table(this.gameArena);
@@ -47,6 +48,7 @@ public class Gamestate extends State{
     
     public void update(){
         table.update(gameArena);
+        
         elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
         secondsLeft = gameDuration - elapsedTime; 
         if (secondsLeft < 100){
@@ -86,6 +88,13 @@ public class Gamestate extends State{
             gameArena.addRectangle(winnerBox.getRectangle());
             gameArena.addText(winnerBox.getText());
             winnerBoxShowing = true;
+        }
+
+        if (table.getPlayerOneHasScored()){
+            scorePlayerOne++;
+        }
+        if (table.getPlayerTwoHasScored()){
+            scorePlayerTwo++;
         }
 
     }
