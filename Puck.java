@@ -1,16 +1,18 @@
 import java.awt.Rectangle;
 
-import javax.sql.rowset.serial.SerialStruct;
+import javax.swing.tree.VariableHeightLayoutCache;
 
 public class Puck{
     private Ball puckBody;
     private double x;
     private double y;
-    private double baseVelocity = 10;
     private int puckDiameter = 30;
-    private double tableFriction = 0.000001;
+    private boolean playerOneHasScored, playerTwoHasScored;
 
-    private double velocityX = 0, velocityY = 0;
+    private double velocity = 0.001; 
+    private double velocityX, velocityY;
+
+    private double tableFriction = 0.0001;
 
     public Puck(double x, double y){
         this.x = x;
@@ -23,25 +25,33 @@ public class Puck{
     }
 
     public void updatePuck(Table table){
+        //System.out.println("HERE");
+        playerOneHasScored = false;
+        playerTwoHasScored = false;
+
         puckBody.setXPosition(x);
         puckBody.setYPosition(y);
 
         double dx, dy; 
-        Mallet malletHit = new Mallet(-10000, -10000); // if no mallets get hit;
+        boolean isMalletHit = false;
+        Mallet malletHit = null;
 
         if (puckBody.collides(table.getMalletOne().getBall())){
             malletHit = table.getMalletOne();
+            isMalletHit = true;
         }
         if (puckBody.collides(table.getMalletTwo().getBall())){
             malletHit = table.getMalletTwo();
+            isMalletHit = true;
         }
 
-        if (malletHit.getX() != -10000){ // if a mallet is hit:
+        if (isMalletHit){ // if a mallet is hit:
             dx = puckBody.getXPosition() - malletHit.getBall().getXPosition();
             dy = puckBody.getYPosition() - malletHit.getBall().getYPosition();
-    
-            velocityX = baseVelocity * dx + 1.5 * malletHit.getVelocity();
-            velocityY = baseVelocity * dy + 1.5 * malletHit.getVelocity();
+
+            velocityX = dx * velocity;
+            velocityY = dy * velocity;
+
         }
 
         // Checking against walls: 1000X800 arena with 20px thick borders
@@ -51,6 +61,7 @@ public class Puck{
         if (x - (puckDiameter/2) <= 20){
             velocityX *= -1;
         }
+
         if (y + (puckDiameter/2) >= 480){
             velocityY *= -1;
         }
@@ -58,39 +69,72 @@ public class Puck{
             velocityY *= -1;
         }
 
-        // Moving the puck:
-        if (velocityX != 0 && velocityY != 0){
+        if (x <= 30 && y <= 280 && y >= 140){
+            playerTwoHasScored = true;
+        }
+
+        if (x >= 970 && y <= 280 && y >= 140){
+            playerOneHasScored = true;
+        }
+
+        if (velocityX > 0 || velocityY > 0){
             movePuck();
         }
+
+        if (x > 1000 || x < 0 || y > 600 || y < 100){
+            x = 500;
+            y = 350;
+        }
+        System.out.println(velocityX + ", " + velocityY);
     }
     
     public void movePuck(){
-        // We need to use the ratio of x to y to move the puck. 
-        // IF X = 30 AND Y = 15, X SHOULD INCREASE 2x AS MUCH AS Y
-        // This will be done by 'sharing' the Velocity across the two different velocities.
-
-        double xRatio, yRatio;
-        xRatio = baseVelocity / (Math.abs(velocityX) + Math.abs(velocityY)) * velocityX;
-        yRatio = baseVelocity / (Math.abs(velocityX) + Math.abs(velocityY)) * velocityY;
-
-        x += xRatio * tableFriction;
+        System.out.println("We here");
+        x += velocityX;
+        y += velocityY;
         
-        if (velocityX > 0){
-            velocityX -= xRatio * tableFriction;
-        }
-        else{
-            velocityX += xRatio * tableFriction;
+        if (velocityX != 0){
+            velocityX *= (1-tableFriction);
         }
 
-        y += yRatio * tableFriction;
-
-        if (velocityY > 0){
-            velocityY -= yRatio * tableFriction;
+        if (velocityY != 0){
+            velocityY *= (1 - tableFriction);
         }
-        else{
-            velocityY += yRatio * tableFriction;
+
+        if (velocityX > -0.4 && velocityX <= 0.4){
+            velocityX = 0;
+        }
+        if (velocityY > -0.4 && velocityY <= 0.4){
+            velocityY = 0;
         }
     }
 
-        
+    public boolean getPlayerOneHasScored(){
+        return playerOneHasScored;
+    }
+
+    public boolean getPlayerTwoHasScored(){
+        return playerTwoHasScored;
+    }
+
+    public void setX(double x){
+        this.x = x;
+    }
+
+    public void setY(double y){
+        this.y = y;
+    }
+
+    public double getX(){
+        return x;
+    }
+
+    public double getY(){
+        return y;
+    }
+
+    public void resetVelocity(){
+        velocityX = 0;
+        velocityY = 0;
+    }
 }

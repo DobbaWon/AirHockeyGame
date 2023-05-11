@@ -47,7 +47,10 @@ public class Gamestate extends State{
     }
     
     public void update(){
-        table.update(gameArena);
+        table.update(gameArena, this);
+
+        playerOneScoreText = new Textbox(String.valueOf(scorePlayerOne), 400, 20, 410, 60, 40, 60, 40, "BLUE", "WHITE", 1);
+        playerTwoScoreText = new Textbox(String.valueOf(scorePlayerTwo), 560, 20, 570, 60, 40, 60, 40, "BLUE", "WHITE", 1);
         
         elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
         secondsLeft = gameDuration - elapsedTime; 
@@ -146,5 +149,13 @@ public class Gamestate extends State{
 
     public boolean getIsGameOver(){
         return isGameOver;
+    }
+
+    public void playerOneScored(){
+        scorePlayerOne++;
+    }
+
+    public void playerTwoScored(){
+        scorePlayerTwo++;
     }
 }
