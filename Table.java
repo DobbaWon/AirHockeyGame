@@ -3,24 +3,16 @@
  * The table is white, with blue edges, 500x250px.
  * The edges are 10px wide.
  */
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.util.*;
-import java.lang.Class;
-import java.lang.reflect.*;
-
-
 public class Table{
+    // Variables for all the objects on screen:
     private Rectangle body, verticalLineOne, verticalLineTwo, horizontalLineOne, horizontalLineTwo, goalOne, goalTwo, centerLineOuter;
     private Ball centerCircleOutline, centerCircle;
 
+    // Variables for the mallets and puck:
     private Mallet malletOne, malletTwo;
     private Puck puck;
 
+    // Variables to describe the table:
     private int width = 1000;
     private int height = 500;
     private int lineThickness = 20;
@@ -28,11 +20,12 @@ public class Table{
     private int goalLength = 140;
     private int centerCircleDiameter = 160;
 
+    // Flags for whether any player has scored, passed through from the puck class:
     private boolean playerOneHasScored, playerTwoHasScored;
 
+    // Class constructor:
     public Table(GameArena gameArena){
-        // Rectangle = (x, y, width, height, colour, layer);
-        
+        // Initiating all of the objects:
         body = new Rectangle(0, 100, width, height, "WHITE", 0);
         verticalLineOne = new Rectangle(0, 100, lineThickness, height, "BLUE", 1); // The Top Line
         verticalLineTwo = new Rectangle(width-lineThickness, 100, lineThickness, height, "BLUE", 1); // The Bottom Line
@@ -53,7 +46,6 @@ public class Table{
         malletTwo = new Mallet(800, height/2+100);
         
         puck = new Puck(Double.valueOf(width/2), Double.valueOf(height/2)+100);
-
     }
 
     // A public method to return the objects in this class to the Things Array.
@@ -73,6 +65,7 @@ public class Table{
         gameArena.addBall(puck.getBall());
     }
 
+    // A method to remove things from the game arena:
     public void unfillThings(GameArena gameArena){
         gameArena.removeRectangle(body);
         gameArena.removeRectangle(verticalLineOne);
@@ -89,23 +82,24 @@ public class Table{
         gameArena.removeBall(puck.getBall());
     }
 
-    public void update(GameArena gameArena){
-        playerOneHasScored = false;
-        playerTwoHasScored = false;
+    // Update method:
+    public void update(GameArena gameArena, Gamestate gamestate){
+        // Updating the puck and mallets:
         malletOne.updateMallet();
         malletTwo.updateMallet();
-        puck.updatePuck(this);
+        puck.updatePuck(this, gameArena);
 
+        // Checking if a player has scored:
         if (puck.getPlayerOneHasScored()){
             playerOneHasScored = true;
-            resetTable();
+            resetTable(gamestate);
         }
-
         if (puck.getPlayerTwoHasScored()){
             playerTwoHasScored = true;
-            resetTable();
+            resetTable(gamestate);
         }
 
+        // Checking if input keys have been pressed:
         if (gameArena.letterPressed('W')){
             malletOne.setY(malletOne.getY()-0.01);
         }
@@ -131,55 +125,63 @@ public class Table{
             malletTwo.setX(malletTwo.getX()+0.01);
         }
 
+        // Making sure mallets can't leave the table:
         if (malletOne.getX() > 500){
             malletOne.setX(499);
         }
-
         if (malletTwo.getX() < 500){
             malletTwo.setX(501);
         }
-
+        if (malletOne.getX() < 20){
+            malletOne.setX(21);
+        }
+        if (malletTwo.getX() > 980){
+            malletTwo.setX(979);
+        }
         if (malletOne.getY() > 580){
             malletOne.setY(579);
         }
-
         if (malletOne.getY() < 120){
             malletOne.setY(121);
         }
-
         if (malletTwo.getY() > 580){
             malletTwo.setY(579);
         }
-
         if (malletTwo.getY() < 120){
             malletTwo.setY(121);
         }
 
-        System.out.println(malletOne.getX() + ", " + malletOne.getY() + " || " + malletTwo.getX() + ", " + malletTwo.getY());
+        // Resetting the player scored flags:
+        playerOneHasScored = false;
+        playerTwoHasScored = false;
     }
 
+    // Getter for the mallets:
     public Mallet getMalletOne(){
         return malletOne;
     }
-
     public Mallet getMalletTwo(){
         return malletTwo;
     }
 
-    private void resetTable(){
+    // Method to move the puck and mallets back to their starter location:
+    private void resetTable(Gamestate gamestate){
         if (playerOneHasScored){
-            puck.setX(width/2-centerCircleDiameter/2);
+            puck.setX(width/2+centerCircleDiameter/2);
+            gamestate.playerOneScored();
         }
         else{
-            puck.setX(width/2+centerCircleDiameter/2);
-        }
+            puck.setX(width/2-centerCircleDiameter/2);
+            gamestate.playerTwoScored();
 
-        puck.setY(height/2);
+        }
+        puck.setY(350);
+        puck.resetVelocity();
 
         malletOne.setX(200);
         malletTwo.setX(800);
-        malletOne.setY(height/2);
-        malletTwo.setY(height/2);
+        malletOne.setY(350);
+        malletTwo.setY(350);
     }
 
     public boolean getPlayerOneHasScored(){

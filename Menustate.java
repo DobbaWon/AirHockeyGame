@@ -7,7 +7,7 @@ import java.util.*;
 import java.lang.Class;
 import java.lang.reflect.*;
 
-public class Menustate extends State implements KeyListener{
+public class Menustate{
     private GameArena gameArena;
     private Rectangle background;
     private Textbox titleText;
@@ -17,8 +17,6 @@ public class Menustate extends State implements KeyListener{
     private boolean isGamePlaying = false;
     private boolean isGameCheated = false;
 
-    private JFrame frame;
-    
     public Menustate(GameArena gameArena){
         background = new Rectangle(0,0,1000,600,"CYAN", 1);
         titleText = new Textbox("Air Hockey", 400, 50, 420, 100, 200, 80, 30, "BLUE", "WHITE", 2);
@@ -29,8 +27,6 @@ public class Menustate extends State implements KeyListener{
         this.gameArena = gameArena;
         fillGameArena();
 
-        frame = (JFrame) SwingUtilities.getWindowAncestor(gameArena);
-        frame.addKeyListener(this);
     }
 
     private void play(){
@@ -86,31 +82,15 @@ public class Menustate extends State implements KeyListener{
     }
 
      public void update(){
-        //frame = (JFrame) SwingUtilities.getWindowAncestor(gameArena);
-    }
-
-     public void keyPressed(KeyEvent e){
-        int key = e.getKeyCode();
-        
-        if (key == KeyEvent.VK_P){
+        if (gameArena.letterPressed('P')){
             play();
         }
-        
-        if (key == KeyEvent.VK_E){
+        if (gameArena.letterPressed('E')){
             exit();
         }
-
-        if (key == KeyEvent.VK_N){
-            isGameCheated = true;
+        if (gameArena.letterPressed('N')){
+            setCheatedGame();
         }
-    }
-
-     public void keyReleased(KeyEvent e){
-
-    }
-
-     public void keyTyped(KeyEvent e){
-        
     }
 
     public void setNewMainMenu(){
@@ -121,5 +101,9 @@ public class Menustate extends State implements KeyListener{
 
     public boolean getIsGameCheated(){
         return isGameCheated;
+    }
+
+    public void setCheatedGame(){
+        isGameCheated = true;
     }
 }

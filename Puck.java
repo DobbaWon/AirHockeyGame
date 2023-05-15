@@ -1,37 +1,42 @@
-import java.awt.Rectangle;
-
-import javax.swing.tree.VariableHeightLayoutCache;
-
 public class Puck{
+
+    // Declaring the variables that describe the puck:
     private Ball puckBody;
     private double x;
     private double y;
     private int puckDiameter = 30;
+
+    // Declaring flags to show whether a player has scored:
     private boolean playerOneHasScored, playerTwoHasScored;
 
-    private double velocity = 0.001; 
+    // Velocity variables for the Puck's movement:
+    private double velocity = 0.1; 
     private double velocityX, velocityY;
+    private double tableFriction = 0.000001;
 
-    private double tableFriction = 0.0001;
-
+    // Constructor:
     public Puck(double x, double y){
         this.x = x;
         this.y = y;
         puckBody = new Ball(x, y, puckDiameter, "BLACK", 2);
     }
 
+    // Getter for the ball:
     public Ball getBall(){
         return puckBody;
     }
 
-    public void updatePuck(Table table){
-        //System.out.println("HERE");
+    // Update Method:
+    public void updatePuck(Table table, GameArena gameArena){
+        // Resetting the score flags:
         playerOneHasScored = false;
         playerTwoHasScored = false;
 
+        // Setting the position of the body to that of the local variables 'x' and 'y'
         puckBody.setXPosition(x);
         puckBody.setYPosition(y);
 
+        // Checking if the puck hits a mallet, and finding its velocity based on that:
         double dx, dy; 
         boolean isMalletHit = false;
         Mallet malletHit = null;
@@ -49,12 +54,12 @@ public class Puck{
             dx = puckBody.getXPosition() - malletHit.getBall().getXPosition();
             dy = puckBody.getYPosition() - malletHit.getBall().getYPosition();
 
+            // Multiplying the direction of x and y with the velocity:
             velocityX = dx * velocity;
             velocityY = dy * velocity;
-
         }
 
-        // Checking against walls: 1000X800 arena with 20px thick borders
+        // Checking against walls: 1000X800 arena with 20px thick borders:
         if (x + (puckDiameter/2) >= 980){
             velocityX *= -1;
         }
@@ -69,6 +74,7 @@ public class Puck{
             velocityY *= -1;
         }
 
+        // Checking against the goals to see if the player has scored:
         if (x <= 30 && y <= 280 && y >= 140){
             playerTwoHasScored = true;
         }
@@ -77,30 +83,34 @@ public class Puck{
             playerOneHasScored = true;
         }
 
+        // Checking if the puck needs to be moved:
         if (velocityX > 0 || velocityY > 0){
             movePuck();
         }
 
+        // Checking if the puck has accidentally gone out of bounds:
         if (x > 1000 || x < 0 || y > 600 || y < 100){
             x = 500;
             y = 350;
         }
+
+        // Commenting this out makes mallets jump from corner to corner:
         System.out.println(velocityX + ", " + velocityY);
     }
     
     public void movePuck(){
-        System.out.println("We here");
         x += velocityX;
         y += velocityY;
         
+        // Adding friction to the velocities:
         if (velocityX != 0){
             velocityX *= (1-tableFriction);
         }
-
         if (velocityY != 0){
             velocityY *= (1 - tableFriction);
         }
 
+        // Setting them to 0 if they get low enough (they get stuck for some reason otherwise):
         if (velocityX > -0.4 && velocityX <= 0.4){
             velocityX = 0;
         }
