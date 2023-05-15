@@ -40,7 +40,6 @@ public class Table{
         goalOne = new Rectangle(lineThickness, (height-goalLength)/2+100, lineThickness/2, goalLength, "GREY", 1); // The Left Goal
         goalTwo = new Rectangle(width-(1.5*lineThickness), (height-goalLength)/2+100, lineThickness/2, goalLength, "GREY", 1); // The Right Goal
 
-
         // Mallets are controlled by the users:
         malletOne = new Mallet(200, height/2+100, true);
         malletTwo = new Mallet(800, height/2+100, false);
@@ -49,7 +48,7 @@ public class Table{
     }
 
     // A public method to return the objects in this class to the Things Array.
-    public void fillThings(GameArena gameArena){
+    public void draw(GameArena gameArena){
         gameArena.addRectangle(body);
         gameArena.addRectangle(verticalLineOne);
         gameArena.addRectangle(verticalLineTwo);
@@ -66,7 +65,7 @@ public class Table{
     }
 
     // A method to remove things from the game arena:
-    public void unfillThings(GameArena gameArena){
+    public void unDraw(GameArena gameArena){
         gameArena.removeRectangle(body);
         gameArena.removeRectangle(verticalLineOne);
         gameArena.removeRectangle(verticalLineTwo);
@@ -133,22 +132,27 @@ public class Table{
         malletTwo.setY(350);
     }
 
+    // Getter for the playerOneHasScored flag:
     public boolean getPlayerOneHasScored(){
         return playerOneHasScored;
     }
 
+    // Getter for the playerTwoHasScored flag:
     public boolean getPlayerTwoHasScored(){
         return playerTwoHasScored;
     }
 
+    // Getter for the width of the table:
     public int getWidth(){
         return width;
     }
 
+    // Getter for the height of the table:
     public int getHeight(){
         return height;
     }
 
+    // Getter for the lineThickness of the table:
     public int getBorderSize(){
         return lineThickness;
     }

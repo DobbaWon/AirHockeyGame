@@ -6,7 +6,7 @@ public class Mallet{
     private double y;
     private int malletDiameter = 50;
     private boolean isWASD;
-    private final double malletSpeed = 0.00005;
+    private final double malletAccelleration = 0.00005;
     private final double maxMalletVelocity = 0.015;
     private double velocityX, velocityY;
     
@@ -36,11 +36,11 @@ public class Mallet{
 
     // Getter for the Velocities:
     public double getVelocityX(){
-        return 1;
+        return velocityX;
     }
 
     public double getVelocityY(){
-        return 1;
+        return velocityY;
     }
 
     // Setter for the Y value:
@@ -63,28 +63,31 @@ public class Mallet{
     }
 
     public void move(GameArena gameArena){
+        // Check the different controls of the mallet to see if they have been pressed:
         if (isWASD){
+            // If they have been pressed, check if the max velocity has been reached, if not, add the malletAccelleration value to it:
             if (gameArena.letterPressed('W')){
                 if (velocityY > -1 * maxMalletVelocity){
-                    velocityY -= malletSpeed;
+                    velocityY -= malletAccelleration;
                 }
             }
             if (gameArena.letterPressed('A')){
                 if (velocityX > -1 * maxMalletVelocity){
-                    velocityX -= malletSpeed;
+                    velocityX -= malletAccelleration;
                 }
             }
             if (gameArena.letterPressed('S')){
                 if (velocityY < maxMalletVelocity){
-                    velocityY += malletSpeed;
+                    velocityY += malletAccelleration;
                 }
             }
             if (gameArena.letterPressed('D')){
                 if (velocityX < maxMalletVelocity){
-                    velocityX += malletSpeed;
+                    velocityX += malletAccelleration;
                 }
             }
 
+            // If the mallet is the left mallet and it will still be within the playing bounds, move it:
             if (x + velocityX > 21 && x + velocityX < 499){
                 x += velocityX;
             }
@@ -93,48 +96,51 @@ public class Mallet{
         else{
             if (gameArena.letterPressed('I')){
                 if (velocityY > -1 * maxMalletVelocity){
-                    velocityY -= malletSpeed;
+                    velocityY -= malletAccelleration;
                 }
             }
             if (gameArena.letterPressed('J')){
                 if (velocityX > -1 * maxMalletVelocity){
-                    velocityX -= malletSpeed;
+                    velocityX -= malletAccelleration;
                 }
             }
             if (gameArena.letterPressed('K')){
                 if (velocityY < maxMalletVelocity){
-                    velocityY += malletSpeed;
+                    velocityY += malletAccelleration;
                 }
             }
             if (gameArena.letterPressed('L')){
                 if (velocityX < maxMalletVelocity){
-                    velocityX += malletSpeed;
+                    velocityX += malletAccelleration;
                 }
             }
 
+            // If the mallet is the right mallet and moving it will keep it within the playing bounds, move it:
             if (x + velocityX > 501 && x + velocityX < 979){
                 x += velocityX;
             }
         }
 
+        // If moving the mallet up or down will keep it within the playing bounds, move it:
         if (y + velocityY > 121 && y + velocityY < 599){
             y += velocityY;
         }
 
+        // Decellerate if the mallet is idle:
         if (velocityX > 0){
-            velocityX -= (malletSpeed/5);
+            velocityX -= (malletAccelleration/5);
         }
 
         if (velocityX < 0){
-            velocityX += (malletSpeed/5);
+            velocityX += (malletAccelleration/5);
         }
 
         if (velocityY > 0){
-            velocityY -= (malletSpeed/5);
+            velocityY -= (malletAccelleration/5);
         }
 
         if (velocityY < 0){
-            velocityY += (malletSpeed/5);
+            velocityY += (malletAccelleration/5);
         }
     }
 }

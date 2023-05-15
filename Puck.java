@@ -12,7 +12,7 @@ public class Puck{
     // Velocity variables for the Puck's movement:
     private double velocity = 0.0005; 
     private double velocityX, velocityY;
-    private double tableFriction = 0.000001;
+    private double tableFriction = 0.00001;
 
     // Constructor:
     public Puck(double x, double y){
@@ -51,31 +51,45 @@ public class Puck{
         }
 
         if (isMalletHit){ // if a mallet is hit:
-            deflect(x, y, malletHit.getX(), malletHit.getY(), velocityX, velocityY, malletHit.getVelocityX(), malletHit.getVelocityY());
+            System.out.println("HIT");
+            deflect(x, y, malletHit.getX(), malletHit.getY(), velocityX, velocityY, malletHit.getVelocityX() + 0.01, malletHit.getVelocityY() + 0.01);
         }
 
         // Checking against walls: 1000X800 arena with 20px thick borders:
         if (x + (puckDiameter/2) >= table.getWidth()-table.getBorderSize()){ // Right wall
-            velocityX *= -1;
+            if (velocityX > 0){
+                velocityX *= -1;
+            }
         }
         if (x - (puckDiameter/2) <= table.getBorderSize()){ // Left wall
-            velocityX *= -1;
+            if (velocityX < 0){
+                velocityX *= -1;
+            }
         }
 
         if (y + (puckDiameter/2) >= (table.getHeight()+100) - table.getBorderSize()){ // Bottom wall
-            velocityY *= -1;
+            if (velocityY > 0){
+                velocityY *= -1;
+            }
         }
+        
         if (y - (puckDiameter/2) <= table.getBorderSize()+100){ // Top wall
-            velocityY *= -1;
+            if (velocityY < 0){
+                velocityY *= -1;
+            }
         }
 
         // Checking against the goals to see if the player has scored:
-        if (x <= 30 && y <= 280 && y >= 140){
+        if (x <= 30 && y <= 380 && y >= 240){
             playerTwoHasScored = true;
+            System.out.println("SCORED");
+            gameArena.pause();
         }
 
-        if (x >= 970 && y <= 280 && y >= 140){
+        if (x >= 970 && y <= 380 && y >= 240){
             playerOneHasScored = true;
+            System.out.println("SCORED");
+            gameArena.pause();
         }
 
         // Checking if the puck needs to be moved:
@@ -85,7 +99,15 @@ public class Puck{
 
         // Commenting this out makes mallets jump from corner to corner:
         System.out.println(velocityX + ", " + velocityY);
-        System.out.println(x + " ," + y);
+
+        // Checking if the puck's velocity has changed to NaN for some reason:
+        if (Double.isNaN(velocityX)){
+            velocityX = 0;
+        }
+
+        if (Double.isNaN(velocityY)){
+            velocityY = 0;
+        }
     }
     
     public void movePuck(){
@@ -96,37 +118,44 @@ public class Puck{
         if (velocityY != 0){
             velocityY *= (1 - tableFriction);
         }
+
+        // Moving the puck:
+        x += velocityX;
+        y += velocityY;
+
     }
 
+    // Getter for the playerOneHasScored flag:
     public boolean getPlayerOneHasScored(){
         return playerOneHasScored;
     }
 
+    // Getter for the playerTwoHasScored flag:
     public boolean getPlayerTwoHasScored(){
         return playerTwoHasScored;
     }
 
+    // Setter for the x value:
     public void setX(double x){
         this.x = x;
     }
 
+    // Setter for the y value:
     public void setY(double y){
         this.y = y;
     }
 
+    // Getter for the x value:
     public double getX(){
         return x;
     }
 
+    // Getter for the y value:
     public double getY(){
         return y;
     }
 
-    public void resetVelocity(){
-        velocityX = 0;
-        velocityY = 0;
-    }
-
+    // Method copied from 110 supplied code extract
     public void deflect(double x, double y, double x2, double y2, double velx, double vely, double velx2, double vely2)
     {
         // The position and speed of each of the two balls in the x and y axis before collision.
@@ -171,7 +200,12 @@ public class Puck{
         ySpeed1 = p1FinalTrajectory[1] * mag;
         xSpeed2 = p2FinalTrajectory[0] * mag;
         ySpeed2 = p2FinalTrajectory[1] * mag;
+
+        velocityX = xSpeed1;
+        velocityY = ySpeed1;
     }
+
+    // Method copied from 110 supplied code extract
     /**
      * Converts a vector into a unit vector.
      * Used by the deflect() method to calculate the resultant direction after a collision.

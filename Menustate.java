@@ -8,15 +8,21 @@ import java.lang.Class;
 import java.lang.reflect.*;
 
 public class Menustate{
+    // private instance of the GameArena class:
     private GameArena gameArena;
+
+    // Rectangles and Textboxes for different displays:
     private Rectangle background;
     private Textbox titleText;
     private Textbox playText;
     private Textbox exitText;
     private Textbox cheatBox;
+    
+    // Boolean flags for different states of the menu:
     private boolean isGamePlaying = false;
     private boolean isGameCheated = false;
 
+    // Class constructor:
     public Menustate(GameArena gameArena){
         background = new Rectangle(0,0,1000,600,"CYAN", 1);
         titleText = new Textbox("Air Hockey", 400, 50, 420, 100, 200, 80, 30, "BLUE", "WHITE", 2);
@@ -25,19 +31,21 @@ public class Menustate{
         cheatBox = new Textbox("No CheatiNg!", 300, 400, 500, 350, 400, 80, 50, "BLACK", "WHITE", 2);
 
         this.gameArena = gameArena;
-        fillGameArena();
-
+        draw();
     }
 
+    // Private method which removes all of the assets from the GameArena, and starts the Gamestate:
     private void play(){
-        unfillGameArena();
+        unDraw();
         isGamePlaying = true;
     }
 
+    // Getter for the isGamePlaying flag:
     public boolean getIsGamePlaying(){
         return isGamePlaying;
     }
 
+    // Private getter for all of the rectangles in this class:
     private Rectangle[] getRectangles(){
         Rectangle[] rectangles = new Rectangle[4];
         rectangles[0] = background;
@@ -47,6 +55,7 @@ public class Menustate{
         return rectangles;
     }
 
+    // Private getter for all of the text in this class:
     private Text[] getText(){
         Text[] text = new Text[3];
         text[0] = titleText.getText();
@@ -55,7 +64,8 @@ public class Menustate{
         return text;
     }
 
-    public void fillGameArena(){
+    // Public method that adds all of the objects of this class to the Things array:
+    public void draw(){
         Rectangle[] rectangles = getRectangles();
         Text[] text = getText();
 
@@ -66,7 +76,8 @@ public class Menustate{
         gameArena.addRectangle(rectangles[3]);
     }
 
-    private void unfillGameArena(){
+    // Private method of this class which removes all of the objects from the Things array:
+    private void unDraw(){
         Rectangle[] rectangles = getRectangles();
         Text[] text = getText();
 
@@ -77,11 +88,13 @@ public class Menustate{
         gameArena.removeRectangle(rectangles[3]);
     }
 
+    // Private method called when the user presses 'E' which exits the game:
     private void exit(){
         gameArena.exit();
     }
 
-     public void update(){
+    // Public update method which reads user input and listens for 'P', 'E', and 'N':
+    public void update(){
         if (gameArena.letterPressed('P')){
             play();
         }
@@ -89,21 +102,19 @@ public class Menustate{
             exit();
         }
         if (gameArena.letterPressed('N')){
-            setCheatedGame();
+            isGameCheated = true;
         }
     }
 
+    // Resetter for the flags and the objects:
     public void setNewMainMenu(){
         isGamePlaying = false;
         isGameCheated = false;
-        fillGameArena();
+        draw();
     }
 
+    // Getter for the isGameCheated flag:
     public boolean getIsGameCheated(){
         return isGameCheated;
-    }
-
-    public void setCheatedGame(){
-        isGameCheated = true;
     }
 }

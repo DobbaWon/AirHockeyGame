@@ -121,12 +121,14 @@ public class Gamestate{
             scorePlayerTwo++;
         }
 
+        // Update the text:
         playerOneScoreText.setText(String.valueOf(scorePlayerOne));
         playerTwoScoreText.setText(String.valueOf(scorePlayerTwo));
     }
-    
+
+    // A public method to return the objects in this class to the Things Array:
     public void draw(){
-        table.fillThings(this.gameArena); 
+        table.draw(this.gameArena); 
         gameArena.addRectangle(wasd.getRectangle());
         gameArena.addRectangle(ijkl.getRectangle());
         gameArena.addRectangle(timer.getRectangle());
@@ -139,7 +141,8 @@ public class Gamestate{
         gameArena.addText(playerTwoScoreText.getText());
     }
 
-    public void resetArena(){
+    // A public method to remove the objects in this class from the Things array:
+    public void unDraw(){
         gameArena.removeRectangle(wasd.getRectangle());
         gameArena.removeRectangle(ijkl.getRectangle());
         gameArena.removeRectangle(timer.getRectangle());
@@ -152,8 +155,9 @@ public class Gamestate{
         gameArena.removeRectangle(playerTwoScoreText.getRectangle());
         gameArena.removeText(playerOneScoreText.getText());
         gameArena.removeText(playerTwoScoreText.getText());
-        table.unfillThings(gameArena);
+        table.unDraw(gameArena);
 
+        // Reset our flags:
         isGameOver = false;
         goToMainMenu = false;
         scorePlayerOne = scorePlayerTwo = 0;
@@ -161,23 +165,27 @@ public class Gamestate{
         winnerBoxShowing = false;
     }
 
+    // A public method to set the start time of the game:
     public void initArena(){
         startTime = System.currentTimeMillis();
     }
 
-
+    // A getter for the goToMainMenu flag:
     public boolean getGoToMainMenu(){
         return goToMainMenu;
     }
 
+    // A getter for the isGameOver flag:
     public boolean getIsGameOver(){
         return isGameOver;
     }
 
+    // A public method to increment the score of player one:
     public void playerOneScored(){
         scorePlayerOne++;
     }
 
+    // A public method to increment the score of player two:
     public void playerTwoScored(){
         scorePlayerTwo++;
     }
