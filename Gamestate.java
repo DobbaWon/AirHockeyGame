@@ -54,6 +54,7 @@ public class Gamestate{
         playerOneScoreText = new Textbox(String.valueOf(scorePlayerOne), 400, 20, 410, 60, 40, 60, 40, "BLUE", "WHITE", 1);
         playerTwoScoreText = new Textbox(String.valueOf(scorePlayerTwo), 560, 20, 570, 60, 40, 60, 40, "BLUE", "WHITE", 1);
 
+        initArena();
     }
 
     // Setter for the cheated game flag:
@@ -125,21 +126,17 @@ public class Gamestate{
     }
     
     public void draw(){
-        if (!hasDrawn){
-            table.fillThings(this.gameArena); 
-            gameArena.addRectangle(wasd.getRectangle());
-            gameArena.addRectangle(ijkl.getRectangle());
-            gameArena.addRectangle(timer.getRectangle());
-            gameArena.addText(wasd.getText());
-            gameArena.addText(ijkl.getText());
-            gameArena.addText(timer.getText());
-            gameArena.addRectangle(playerOneScoreText.getRectangle());
-            gameArena.addRectangle(playerTwoScoreText.getRectangle());
-            gameArena.addText(playerOneScoreText.getText());
-            gameArena.addText(playerTwoScoreText.getText());
-            hasDrawn = true;
-            initArena();
-        }
+        table.fillThings(this.gameArena); 
+        gameArena.addRectangle(wasd.getRectangle());
+        gameArena.addRectangle(ijkl.getRectangle());
+        gameArena.addRectangle(timer.getRectangle());
+        gameArena.addText(wasd.getText());
+        gameArena.addText(ijkl.getText());
+        gameArena.addText(timer.getText());
+        gameArena.addRectangle(playerOneScoreText.getRectangle());
+        gameArena.addRectangle(playerTwoScoreText.getRectangle());
+        gameArena.addText(playerOneScoreText.getText());
+        gameArena.addText(playerTwoScoreText.getText());
     }
 
     public void resetArena(){
@@ -151,6 +148,10 @@ public class Gamestate{
         gameArena.removeText(timer.getText());
         gameArena.removeText(winnerBox.getText());
         gameArena.removeRectangle(winnerBox.getRectangle());
+        gameArena.removeRectangle(playerOneScoreText.getRectangle());
+        gameArena.removeRectangle(playerTwoScoreText.getRectangle());
+        gameArena.removeText(playerOneScoreText.getText());
+        gameArena.removeText(playerTwoScoreText.getText());
         table.unfillThings(gameArena);
 
         isGameOver = false;

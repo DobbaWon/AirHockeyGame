@@ -34,7 +34,7 @@ public class Menustate{
         isGamePlaying = true;
     }
 
-     public boolean getIsGamePlaying(){
+    public boolean getIsGamePlaying(){
         return isGamePlaying;
     }
 

@@ -42,8 +42,8 @@ public class Table{
 
 
         // Mallets are controlled by the users:
-        malletOne = new Mallet(200, height/2+100);
-        malletTwo = new Mallet(800, height/2+100);
+        malletOne = new Mallet(200, height/2+100, true);
+        malletTwo = new Mallet(800, height/2+100, false);
         
         puck = new Puck(Double.valueOf(width/2), Double.valueOf(height/2)+100);
     }
@@ -85,8 +85,9 @@ public class Table{
     // Update method:
     public void update(GameArena gameArena, Gamestate gamestate){
         // Updating the puck and mallets:
-        malletOne.updateMallet();
-        malletTwo.updateMallet();
+        malletOne.updateMallet(gameArena);
+        malletTwo.updateMallet(gameArena);
+
         puck.updatePuck(this, gameArena);
 
         // Checking if a player has scored:
@@ -97,58 +98,6 @@ public class Table{
         if (puck.getPlayerTwoHasScored()){
             playerTwoHasScored = true;
             resetTable(gamestate);
-        }
-
-        // Checking if input keys have been pressed:
-        if (gameArena.letterPressed('W')){
-            malletOne.setY(malletOne.getY()-0.01);
-        }
-        if (gameArena.letterPressed('A')){
-            malletOne.setX(malletOne.getX()-0.01);
-        }
-        if (gameArena.letterPressed('S')){
-            malletOne.setY(malletOne.getY()+0.01);
-        }
-        if (gameArena.letterPressed('D')){
-            malletOne.setX(malletOne.getX()+0.01);
-        }
-        if (gameArena.letterPressed('I')){
-            malletTwo.setY(malletTwo.getY()-0.01);
-        }
-        if (gameArena.letterPressed('J')){
-            malletTwo.setX(malletTwo.getX()-0.01);
-        }
-        if (gameArena.letterPressed('K')){
-            malletTwo.setY(malletTwo.getY()+0.01);
-        }
-        if (gameArena.letterPressed('L')){
-            malletTwo.setX(malletTwo.getX()+0.01);
-        }
-
-        // Making sure mallets can't leave the table:
-        if (malletOne.getX() > 500){
-            malletOne.setX(499);
-        }
-        if (malletTwo.getX() < 500){
-            malletTwo.setX(501);
-        }
-        if (malletOne.getX() < 20){
-            malletOne.setX(21);
-        }
-        if (malletTwo.getX() > 980){
-            malletTwo.setX(979);
-        }
-        if (malletOne.getY() > 580){
-            malletOne.setY(579);
-        }
-        if (malletOne.getY() < 120){
-            malletOne.setY(121);
-        }
-        if (malletTwo.getY() > 580){
-            malletTwo.setY(579);
-        }
-        if (malletTwo.getY() < 120){
-            malletTwo.setY(121);
         }
 
         // Resetting the player scored flags:
@@ -190,5 +139,17 @@ public class Table{
 
     public boolean getPlayerTwoHasScored(){
         return playerTwoHasScored;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public int getBorderSize(){
+        return lineThickness;
     }
 }
