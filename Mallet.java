@@ -7,7 +7,7 @@ public class Mallet{
     private int malletDiameter = 50;
     private boolean isWASD;
     private final double malletSpeed = 0.00005;
-    private final double maxMalletVelocity = 0.0005;
+    private final double maxMalletVelocity = 0.015;
     private double velocityX, velocityY;
     
     // Class constructor:
@@ -66,54 +66,75 @@ public class Mallet{
         if (isWASD){
             if (gameArena.letterPressed('W')){
                 if (velocityY > -1 * maxMalletVelocity){
-                    velocityY += malletSpeed;
-                }
-
-                if (y > 121){
-                    y -= velocityY;
+                    velocityY -= malletSpeed;
                 }
             }
             if (gameArena.letterPressed('A')){
-                if (x > 21){
-                    x -= malletSpeed;
+                if (velocityX > -1 * maxMalletVelocity){
+                    velocityX -= malletSpeed;
                 }
             }
             if (gameArena.letterPressed('S')){
-                if (y < 579){
-                    y += malletSpeed;
+                if (velocityY < maxMalletVelocity){
+                    velocityY += malletSpeed;
                 }
             }
             if (gameArena.letterPressed('D')){
-                if (x < 499){
-                    x += malletSpeed;
+                if (velocityX < maxMalletVelocity){
+                    velocityX += malletSpeed;
                 }
             }
+
+            if (x + velocityX > 21 && x + velocityX < 499){
+                x += velocityX;
+            }
         }
+
         else{
             if (gameArena.letterPressed('I')){
                 if (velocityY > -1 * maxMalletVelocity){
-                    velocityY += malletSpeed;
-                }
-
-                if (y > 121){
-                    y -= velocityY;
+                    velocityY -= malletSpeed;
                 }
             }
             if (gameArena.letterPressed('J')){
-                if (x > 501){
-                    x -= malletSpeed;
+                if (velocityX > -1 * maxMalletVelocity){
+                    velocityX -= malletSpeed;
                 }
             }
             if (gameArena.letterPressed('K')){
-                if (y < 579){
-                    y += malletSpeed;
+                if (velocityY < maxMalletVelocity){
+                    velocityY += malletSpeed;
                 }
             }
             if (gameArena.letterPressed('L')){
-                if (x < 979){
-                    x += malletSpeed;
+                if (velocityX < maxMalletVelocity){
+                    velocityX += malletSpeed;
                 }
             }
+
+            if (x + velocityX > 501 && x + velocityX < 979){
+                x += velocityX;
+            }
+        }
+
+        if (y + velocityY > 121 && y + velocityY < 599){
+            y += velocityY;
+        }
+
+        if (velocityX > 0){
+            velocityX -= (malletSpeed/5);
+        }
+
+        if (velocityX < 0){
+            velocityX += (malletSpeed/5);
+        }
+
+        if (velocityY > 0){
+            velocityY -= (malletSpeed/5);
+        }
+
+        if (velocityY < 0){
+            velocityY += (malletSpeed/5);
         }
     }
 }
