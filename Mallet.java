@@ -7,7 +7,7 @@ public class Mallet{
     private int malletDiameter = 50;
     private boolean isWASD;
     private final double malletAccelleration = 0.00005;
-    private final double maxMalletVelocity = 0.015;
+    private final double maxMalletVelocity = 0.0075;
     private double velocityX, velocityY;
     
     // Class constructor:

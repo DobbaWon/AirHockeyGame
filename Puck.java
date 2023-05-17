@@ -51,30 +51,30 @@ public class Puck{
         }
 
         if (isMalletHit){ // if a mallet is hit:
-            System.out.println("HIT");
             deflect(x, y, malletHit.getX(), malletHit.getY(), velocityX, velocityY, malletHit.getVelocityX() + 0.01, malletHit.getVelocityY() + 0.01);
         }
 
         // Checking against walls: 1000X800 arena with 20px thick borders:
-        if (x + (puckDiameter/2) >= table.getWidth()-table.getBorderSize()){ // Right wall
-            if (velocityX > 0){
-                velocityX *= -1;
-            }
-        }
-        if (x - (puckDiameter/2) <= table.getBorderSize()){ // Left wall
-            if (velocityX < 0){
+        if (velocityX > 0){
+            if (x + (puckDiameter/2) + velocityX >= table.getWidth()-table.getBorderSize()){ // Right wall
                 velocityX *= -1;
             }
         }
 
-        if (y + (puckDiameter/2) >= (table.getHeight()+100) - table.getBorderSize()){ // Bottom wall
-            if (velocityY > 0){
+        if (velocityX < 0){
+            if (x - (puckDiameter/2) + velocityX <= table.getBorderSize()){ // Left wall
+                velocityX *= -1;
+            }
+        }
+
+        if (velocityY > 0){
+            if (y + (puckDiameter/2) + velocityY >= (table.getHeight()+100) - table.getBorderSize()){ // Bottom wall
                 velocityY *= -1;
             }
         }
-        
-        if (y - (puckDiameter/2) <= table.getBorderSize()+100){ // Top wall
-            if (velocityY < 0){
+
+        if (velocityY < 0){
+            if (y - (puckDiameter/2) + velocityY <= table.getBorderSize()+100){ // Top wall
                 velocityY *= -1;
             }
         }
@@ -93,20 +93,23 @@ public class Puck{
         }
 
         // Checking if the puck needs to be moved:
-        if (velocityX > 0 || velocityY > 0){
+        if (velocityX > 0 || velocityY > 0 || velocityX < 0 || velocityY < 0){
             movePuck();
         }
 
-        // Commenting this out makes mallets jump from corner to corner:
-        System.out.println(velocityX + ", " + velocityY);
+        //Commenting this out makes mallets jump from corner to corner:
+        System.out.println("");
 
         // Checking if the puck's velocity has changed to NaN for some reason:
         if (Double.isNaN(velocityX)){
             velocityX = 0;
+            System.out.println("NAN VelX");
         }
 
         if (Double.isNaN(velocityY)){
             velocityY = 0;
+            System.out.println("NAN VelY");
+
         }
     }
     
@@ -229,5 +232,11 @@ public class Puck{
                 result[i] = vec[i] / mag;
         }
     return result;
+    }
+
+    // A public method to reset the velocities.
+    public void resetVelocity(){
+        velocityX = 0;
+        velocityY = 0;
     }
 }
