@@ -28,11 +28,17 @@ public class Gamestate{
     // Flags for the state of the game:
     private boolean goToMainMenu = false;
     private boolean winnerBoxShowing = false;
+    private boolean isGameMuted = false;
+    private boolean wasMuteButtonPressed = false;
 
     // Flag for if the game is a cheated game:
     private boolean isGameCheated = false;
     // Text that shows if the game is cheated:
     private Text spaceToResetPuck;
+
+    // Text that shows if the game is muted:
+    private String mutedText;
+    private Text muted;
 
     // Textbox which appears at 0 seconds left:
     private Textbox winnerBox;
@@ -139,6 +145,22 @@ public class Gamestate{
                 table.getPuck().resetVelocity();
             }
         }
+
+        // Check if the player wants to mute and or unmute the game:
+        if (gameArena.letterPressed('M')){
+            if (!wasMuteButtonPressed){
+                if (isGameMuted){
+                    unMuteGame();
+                }
+                else{
+                    setMutedGame();
+                }
+            }
+            wasMuteButtonPressed = true;
+        }
+        else{
+            wasMuteButtonPressed = false;
+        }
     }
 
     // A public method to return the objects in this class to the Things Array:
@@ -154,6 +176,7 @@ public class Gamestate{
         gameArena.addRectangle(playerTwoScoreText.getRectangle());
         gameArena.addText(playerOneScoreText.getText());
         gameArena.addText(playerTwoScoreText.getText());
+        gameArena.addText(muted);
 
         if (isGameCheated){
             gameArena.addText(spaceToResetPuck);
@@ -174,6 +197,10 @@ public class Gamestate{
         gameArena.removeRectangle(playerTwoScoreText.getRectangle());
         gameArena.removeText(playerOneScoreText.getText());
         gameArena.removeText(playerTwoScoreText.getText());
+        gameArena.removeText(muted);
+        if (isGameCheated){
+            gameArena.removeText(spaceToResetPuck);
+        }
         table.unDraw(gameArena);
 
         // Reset our flags:
@@ -186,6 +213,14 @@ public class Gamestate{
 
     // A public method to set the start time of the game:
     public void initArena(){
+        if (isGameMuted){
+            mutedText = "muted";
+        }
+        else{
+            mutedText = "unmuted";
+        }
+
+        muted = new Text(mutedText, 14, 5, 50, "BLUE", 1);
         startTime = System.currentTimeMillis();
     }
 
@@ -224,7 +259,18 @@ public class Gamestate{
 
     // Setter for isGameMuted:
     public void setMutedGame(){
+        isGameMuted = true;
         table.getPuck().mute();
         fanfarePath = "";
+        mutedText = "muted";
+        muted.setText(mutedText);
+    }
+    
+    public void unMuteGame(){
+        isGameMuted = false;
+        table.getPuck().unMute();
+        fanfarePath = "fanfare.wav";
+        mutedText = "unmuted";
+        muted.setText(mutedText);
     }
 }

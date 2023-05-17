@@ -25,6 +25,7 @@ public class Menustate{
     private boolean isGamePlaying = false;
     private boolean isGameCheated = false;
     private boolean isGameMuted = false;
+    private boolean wasMuteButtonPressed = false;
 
     // Path for the drumroll sfx:
     private String drumrollPath = "drumroll.wav"; 
@@ -122,9 +123,18 @@ public class Menustate{
             gameArena.removeText(cheatBox.getText());
         }
         if (gameArena.letterPressed('M')){
-            isGameMuted = true;
-            gameArena.removeRectangle(muteBox.getRectangle());
-            gameArena.removeText(muteBox.getText());
+            if (!wasMuteButtonPressed){
+                if (isGameMuted){
+                    isGameMuted = false;
+                }
+                else{
+                    isGameMuted = true;
+                }
+            }
+            wasMuteButtonPressed = true;
+        }
+        else{
+            wasMuteButtonPressed = false;
         }
         
     }

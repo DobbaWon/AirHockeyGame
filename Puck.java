@@ -269,4 +269,10 @@ public class Puck{
         bouncePath = "";
         applausePath = "";
     }
+
+    public void unMute(){
+        hitPath = "hit.wav";
+        bouncePath = "bounce.wav";
+        applausePath = "applause.wav";
+    }
 }
