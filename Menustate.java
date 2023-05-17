@@ -28,7 +28,7 @@ public class Menustate{
         titleText = new Textbox("Air Hockey", 400, 50, 420, 100, 200, 80, 30, "BLUE", "WHITE", 2);
         playText = new Textbox("PLAY - 'P'", 300, 200, 400, 260, 400, 80, 50, "GREEN", "WHITE", 2);
         exitText = new Textbox("EXIT - 'E'", 300, 300, 400, 360, 400, 80, 50, "RED", "WHITE", 2);
-        cheatBox = new Textbox("No CheatiNg!", 300, 400, 500, 350, 400, 80, 50, "BLACK", "WHITE", 2);
+        cheatBox = new Textbox("No CheatiNg!", 300, 400, 360, 460, 400, 80, 50, "BLACK", "WHITE", 2);
 
         this.gameArena = gameArena;
         draw();
@@ -47,20 +47,22 @@ public class Menustate{
 
     // Private getter for all of the rectangles in this class:
     private Rectangle[] getRectangles(){
-        Rectangle[] rectangles = new Rectangle[4];
+        Rectangle[] rectangles = new Rectangle[5];
         rectangles[0] = background;
         rectangles[1] = titleText.getRectangle();
         rectangles[2] = playText.getRectangle();
         rectangles[3] = exitText.getRectangle(); 
+        rectangles[4] = cheatBox.getRectangle();
         return rectangles;
     }
 
     // Private getter for all of the text in this class:
     private Text[] getText(){
-        Text[] text = new Text[3];
+        Text[] text = new Text[4];
         text[0] = titleText.getText();
         text[1] = playText.getText();
         text[2] = exitText.getText();
+        text[3] = cheatBox.getText();
         return text;
     }
 
@@ -69,11 +71,11 @@ public class Menustate{
         Rectangle[] rectangles = getRectangles();
         Text[] text = getText();
 
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 4; i++){
             gameArena.addRectangle(rectangles[i]);
             gameArena.addText(text[i]);
         }
-        gameArena.addRectangle(rectangles[3]);
+        gameArena.addRectangle(rectangles[4]);
     }
 
     // Private method of this class which removes all of the objects from the Things array:
@@ -81,11 +83,11 @@ public class Menustate{
         Rectangle[] rectangles = getRectangles();
         Text[] text = getText();
 
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 4; i++){
             gameArena.removeRectangle(rectangles[i]);
             gameArena.removeText(text[i]);
         }
-        gameArena.removeRectangle(rectangles[3]);
+        gameArena.removeRectangle(rectangles[4]);
     }
 
     // Private method called when the user presses 'E' which exits the game:
@@ -103,6 +105,8 @@ public class Menustate{
         }
         if (gameArena.letterPressed('N')){
             isGameCheated = true;
+            gameArena.removeRectangle(cheatBox.getRectangle());
+            gameArena.removeText(cheatBox.getText());
         }
     }
 

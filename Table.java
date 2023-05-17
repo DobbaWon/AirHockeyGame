@@ -156,4 +156,8 @@ public class Table{
     public int getBorderSize(){
         return lineThickness;
     }
+
+    public Puck getPuck(){
+        return puck;
+    }
 }

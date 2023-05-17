@@ -31,6 +31,8 @@ public class Gamestate{
 
     // Flag for if the game is a cheated game:
     private boolean isGameCheated = false;
+    // Text that shows if the game is cheated:
+    private Text spaceToResetPuck;
 
     // Textbox which appears at 0 seconds left:
     private Textbox winnerBox;
@@ -58,7 +60,7 @@ public class Gamestate{
         timer = new Textbox("", 440, 10, 455, 80, 120, 80, 50, "RED", "WHITE", 1);
         playerOneScoreText = new Textbox(String.valueOf(scorePlayerOne), 400, 20, 410, 60, 40, 60, 40, "BLUE", "WHITE", 1);
         playerTwoScoreText = new Textbox(String.valueOf(scorePlayerTwo), 560, 20, 570, 60, 40, 60, 40, "BLUE", "WHITE", 1);
-
+        spaceToResetPuck = new Text("Space To Reset Puck", 30, 350, 550, "BLACK", 2);
         initArena();
     }
 
@@ -130,6 +132,15 @@ public class Gamestate{
         // Update the text:
         playerOneScoreText.setText(String.valueOf(scorePlayerOne));
         playerTwoScoreText.setText(String.valueOf(scorePlayerTwo));
+
+        // Check if space has been pressed (if game is cheated):
+        if (isGameCheated){
+            if (gameArena.spacePressed()){
+                table.getPuck().setX(500);
+                table.getPuck().setY(350);
+                table.getPuck().resetVelocity();
+            }
+        }
     }
 
     // A public method to return the objects in this class to the Things Array:
@@ -145,6 +156,10 @@ public class Gamestate{
         gameArena.addRectangle(playerTwoScoreText.getRectangle());
         gameArena.addText(playerOneScoreText.getText());
         gameArena.addText(playerTwoScoreText.getText());
+
+        if (isGameCheated){
+            gameArena.addText(spaceToResetPuck);
+        }
     }
 
     // A public method to remove the objects in this class from the Things array:
