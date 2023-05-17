@@ -45,7 +45,6 @@ public class Gamestate{
     private Textbox playerTwoScoreText;
 
     private String fanfarePath = "fanfare.wav";
-    private String drumrollPath = "drumroll.wav"; 
 
     // Class constructor: 
     public Gamestate(GameArena gameArena){
@@ -117,7 +116,6 @@ public class Gamestate{
             winnerBox = new Textbox(winnerText, 300, 200, 350, 310, 400, 200, 40, "GREEN", "WHITE", 6);
             gameArena.addRectangle(winnerBox.getRectangle());
             gameArena.addText(winnerBox.getText());
-            playSoundEffect(drumrollPath);
             winnerBoxShowing = true;
         }
 
@@ -189,7 +187,6 @@ public class Gamestate{
     // A public method to set the start time of the game:
     public void initArena(){
         startTime = System.currentTimeMillis();
-        playSoundEffect(drumrollPath);
     }
 
     // A getter for the goToMainMenu flag:
@@ -223,5 +220,11 @@ public class Gamestate{
         } 
         catch (Exception ex) {
         }
+    }
+
+    // Setter for isGameMuted:
+    public void setMutedGame(){
+        table.getPuck().mute();
+        fanfarePath = "";
     }
 }

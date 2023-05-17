@@ -263,4 +263,10 @@ public class Puck{
         catch (Exception ex) {
         }
     }
+
+    public void mute(){
+        hitPath = "";
+        bouncePath = "";
+        applausePath = "";
+    }
 }

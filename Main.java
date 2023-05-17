@@ -31,6 +31,10 @@ public class Main implements Runnable{
                     if (menustate.getIsGameCheated()){
                         gamestate.setCheatedGame();
                     }
+                    // If the user has chosen to mute the game:
+                    if (menustate.getIsGameMuted()){
+                        gamestate.setMutedGame();
+                    }
 
                     gamestate.draw();
                     newGame = false;
