@@ -1,3 +1,6 @@
+import javax.sound.sampled.*;
+import java.io.*;
+
 public class Puck{
 
     // Declaring the variables that describe the puck:
@@ -13,6 +16,11 @@ public class Puck{
     private double velocity = 0.0005; 
     private double velocityX, velocityY;
     private double tableFriction = 0.00001;
+
+    // Variables that hold the path to the different sound effects:
+    private String hitPath = "hit.wav";
+    private String bouncePath = "bounce.wav";
+    private String applausePath = "applause.wav";
 
     // Constructor:
     public Puck(double x, double y){
@@ -51,6 +59,7 @@ public class Puck{
         }
 
         if (isMalletHit){ // if a mallet is hit:
+            playSoundEffect(hitPath);
             deflect(x, y, malletHit.getX(), malletHit.getY(), velocityX, velocityY, malletHit.getVelocityX() + 0.01, malletHit.getVelocityY() + 0.01);
         }
 
@@ -58,38 +67,42 @@ public class Puck{
         if (velocityX > 0){
             if (x + (puckDiameter/2) + velocityX >= table.getWidth()-table.getBorderSize()){ // Right wall
                 velocityX *= -1;
+                playSoundEffect(bouncePath);
             }
         }
 
         if (velocityX < 0){
             if (x - (puckDiameter/2) + velocityX <= table.getBorderSize()){ // Left wall
                 velocityX *= -1;
+                playSoundEffect(bouncePath);
             }
         }
 
         if (velocityY > 0){
             if (y + (puckDiameter/2) + velocityY >= (table.getHeight()+100) - table.getBorderSize()){ // Bottom wall
                 velocityY *= -1;
+                playSoundEffect(bouncePath);
             }
         }
 
         if (velocityY < 0){
             if (y - (puckDiameter/2) + velocityY <= table.getBorderSize()+100){ // Top wall
                 velocityY *= -1;
+                playSoundEffect(bouncePath);
             }
         }
 
         // Checking against the goals to see if the player has scored:
-        if (x <= 40 && y <= 380 && y >= 240){
+        if (x <= 40 && y <= 420 && y >= 280){
             playerTwoHasScored = true;
-            System.out.println("SCORED");
             gameArena.pause();
+            playSoundEffect(applausePath);
         }
 
-        if (x >= 960 && y <= 380 && y >= 240){
+        if (x >= 960 && y <= 420 && y >= 280){
             playerOneHasScored = true;
-            System.out.println("SCORED");
             gameArena.pause();
+            playSoundEffect(applausePath);
         }
 
         // Checking if the puck needs to be moved:
@@ -109,7 +122,6 @@ public class Puck{
         if (Double.isNaN(velocityY)){
             velocityY = 0;
             System.out.println("NAN VelY");
-
         }
     }
     
@@ -125,7 +137,6 @@ public class Puck{
         // Moving the puck:
         x += velocityX;
         y += velocityY;
-
     }
 
     // Getter for the playerOneHasScored flag:
@@ -238,5 +249,18 @@ public class Puck{
     public void resetVelocity(){
         velocityX = 0;
         velocityY = 0;
+    }
+
+    // A public method to play a sound effect.
+    public void playSoundEffect(String filePath) {
+        try {
+            File soundFile = new File(filePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } 
+        catch (Exception ex) {
+        }
     }
 }

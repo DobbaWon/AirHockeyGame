@@ -1,5 +1,7 @@
 import java.awt.SystemTray;
 import java.io.InvalidObjectException;
+import javax.sound.sampled.*;
+import java.io.*;
 
 public class Gamestate{
     // Storing an instance of the gameArena:
@@ -39,6 +41,9 @@ public class Gamestate{
     private Textbox ijkl;
     private Textbox playerOneScoreText;
     private Textbox playerTwoScoreText;
+
+    private String fanfarePath = "fanfare.wav";
+    private String drumrollPath = "drumroll.wav"; 
 
     // Class constructor: 
     public Gamestate(GameArena gameArena){
@@ -110,6 +115,7 @@ public class Gamestate{
             winnerBox = new Textbox(winnerText, 300, 200, 350, 310, 400, 200, 40, "GREEN", "WHITE", 6);
             gameArena.addRectangle(winnerBox.getRectangle());
             gameArena.addText(winnerBox.getText());
+            playSoundEffect(drumrollPath);
             winnerBoxShowing = true;
         }
 
@@ -168,6 +174,7 @@ public class Gamestate{
     // A public method to set the start time of the game:
     public void initArena(){
         startTime = System.currentTimeMillis();
+        playSoundEffect(drumrollPath);
     }
 
     // A getter for the goToMainMenu flag:
@@ -188,5 +195,18 @@ public class Gamestate{
     // A public method to increment the score of player two:
     public void playerTwoScored(){
         scorePlayerTwo++;
+    }
+
+    // A public method to play a sound effect:
+    public void playSoundEffect(String filePath) {
+        try {
+            File soundFile = new File(filePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } 
+        catch (Exception ex) {
+        }
     }
 }
