@@ -80,13 +80,13 @@ public class Puck{
         }
 
         // Checking against the goals to see if the player has scored:
-        if (x <= 30 && y <= 380 && y >= 240){
+        if (x <= 40 && y <= 380 && y >= 240){
             playerTwoHasScored = true;
             System.out.println("SCORED");
             gameArena.pause();
         }
 
-        if (x >= 970 && y <= 380 && y >= 240){
+        if (x >= 960 && y <= 380 && y >= 240){
             playerOneHasScored = true;
             System.out.println("SCORED");
             gameArena.pause();
